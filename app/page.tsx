@@ -39,16 +39,17 @@ export default function Home() {
           <i aria-hidden="true"><span /><span /><span /></i>
           <b>メニュー</b>
         </a>
-        <Image
-          className="summon-banner"
-          src={`${ASSET_PREFIX}/aim-12000-banner.png`}
-          alt="目指せ！12,000PT"
-          width={2172}
-          height={724}
-          priority
-          unoptimized
-        />
       </header>
+
+      <Image
+        className="summon-banner"
+        src={`${ASSET_PREFIX}/aim-12000-banner.png`}
+        alt="目指せ！12,000PT"
+        width={2172}
+        height={724}
+        priority
+        unoptimized
+      />
 
       <section className="hero-dashboard" aria-label="現在の獲得ポイント">
         <div className="score-column">

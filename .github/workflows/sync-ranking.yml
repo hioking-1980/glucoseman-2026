@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: sync-official-ranking
@@ -24,9 +25,11 @@ jobs:
       - name: Read Glucoseman rank and points from yurugp.jp
         run: node scripts/update-campaign-data.mjs
       - name: Save the latest official values
+        id: save
         run: |
           if git diff --quiet -- app/campaign-data.json; then
             echo "Official values are unchanged."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
@@ -34,3 +37,9 @@ jobs:
           git add app/campaign-data.json
           git commit -m "Update official Glucoseman ranking"
           git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Republish GitHub Pages
+        if: steps.save.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-pages.yml --ref main

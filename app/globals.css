@@ -161,20 +161,14 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .character-base { filter: contrast(1.15) brightness(1.08) drop-shadow(0 12px 10px rgba(0,0,0,.25)); }
 .character-fill {
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: max(var(--progress), 1.5px);
-  overflow: hidden;
-  transition: height .5s ease;
+  inset: 0;
+  pointer-events: none;
 }
 .character-fill img {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
   max-width: none;
+  clip-path: inset(var(--character-fill-inset) 0 0 0);
   filter: sepia(.9) saturate(8) hue-rotate(220deg) brightness(.78) contrast(1.2) drop-shadow(0 -4px 12px rgba(124,50,222,.7));
+  transition: clip-path .5s ease;
 }
 
 .stat-card {
@@ -387,5 +381,5 @@ footer a { font-family: "Yu Gothic", sans-serif; font-size: 9px; text-underline-
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .character-fill { transition: none; }
+  .character-fill img { transition: none; }
 }

@@ -12,7 +12,16 @@ export default function Home() {
   const achievementRate = Math.min((currentPoint / targetPoint) * 100, 100);
   const remainingPoint = Math.max(targetPoint - currentPoint, 0);
   const increase = currentPoint - previousPoint;
-  const progressStyle = { "--progress": `${achievementRate}%` } as CSSProperties;
+  // Map progress to the mascot's visible alpha bounds so even a fraction of 1%
+  // colors the soles instead of being swallowed by transparent image padding.
+  const characterAlphaTop = 77 / 1537;
+  const characterAlphaBottom = 1507 / 1537;
+  const characterFillInset =
+    (characterAlphaBottom - (achievementRate / 100) * (characterAlphaBottom - characterAlphaTop)) * 100;
+  const progressStyle = {
+    "--progress": `${achievementRate}%`,
+    "--character-fill-inset": `${characterFillInset}%`,
+  } as CSSProperties;
 
   return (
     <main className="site-shell">

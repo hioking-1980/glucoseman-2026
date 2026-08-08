@@ -5,6 +5,7 @@ import { ShareButton } from "./share-button";
 
 const VOTE_URL = "https://yurugp.jp/characters/4524";
 const RANKING_URL = "https://yurugp.jp/vote/2026";
+const ASSET_PREFIX = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const formatNumber = (value: number) => new Intl.NumberFormat("ja-JP").format(value);
 
 export default function Home() {
@@ -65,7 +66,7 @@ export default function Home() {
           <div className="character-image-wrap">
             <Image
               className="character-base"
-              src="/glucoseman.png"
+              src={`${ASSET_PREFIX}/glucoseman.png`}
               alt="グルコースマン"
               width={1023}
               height={1537}
@@ -73,7 +74,7 @@ export default function Home() {
               unoptimized
             />
             <div className="character-fill" aria-hidden="true">
-              <Image src="/glucoseman.png" alt="" width={1023} height={1537} unoptimized />
+              <Image src={`${ASSET_PREFIX}/glucoseman.png`} alt="" width={1023} height={1537} unoptimized />
             </div>
           </div>
         </div>

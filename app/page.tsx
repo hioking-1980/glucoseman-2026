@@ -4,174 +4,162 @@ import { CAMPAIGN_DATA } from "./campaign-data";
 import { ShareButton } from "./share-button";
 
 const VOTE_URL = "https://yurugp.jp/characters/4524";
-
-const formatNumber = (value: number) =>
-  new Intl.NumberFormat("ja-JP").format(value);
+const RANKING_URL = "https://yurugp.jp/vote/2026";
+const formatNumber = (value: number) => new Intl.NumberFormat("ja-JP").format(value);
 
 export default function Home() {
-  const { currentPoint, targetPoint, previousPoint, rank, updatedAt } =
-    CAMPAIGN_DATA;
+  const { currentPoint, targetPoint, previousPoint, rank } = CAMPAIGN_DATA;
   const achievementRate = Math.min((currentPoint / targetPoint) * 100, 100);
   const remainingPoint = Math.max(targetPoint - currentPoint, 0);
   const increase = currentPoint - previousPoint;
-  const progressStyle = {
-    "--progress": `${achievementRate}%`,
-  } as CSSProperties;
+  const progressStyle = { "--progress": `${achievementRate}%` } as CSSProperties;
 
   return (
     <main className="site-shell">
-      <section className="hero" aria-labelledby="campaign-title">
-        <div className="grain" aria-hidden="true" />
-        <header className="site-header">
-          <p className="brand-kicker">グルコースマン</p>
-          <h1 id="campaign-title">召喚計画。</h1>
-          <span className="year-stamp">YURU GP<br />2026</span>
-        </header>
+      <div className="campaign-grain" aria-hidden="true" />
 
-        <p className="victory-banner">ゆるキャラグランプリ、優勝。</p>
+      <header className="campaign-header">
+        <div className="campaign-title">
+          <p>グルコースマン</p>
+          <h1>ゆるキャラ<br className="narrow-break" />グランプリ。</h1>
+          <h2>優勝。</h2>
+        </div>
+        <a className="menu-link" href="#support" aria-label="応援メニューへ移動">
+          <i aria-hidden="true"><span /><span /><span /></i>
+          <b>メニュー</b>
+        </a>
+      </header>
 
-        <div className="hero-grid">
-          <div className="score-panel">
-            <p className="eyebrow">現在の達成率</p>
-            <p className="rate">{achievementRate.toFixed(2)}<span>%</span></p>
-            <p className="score-line">
-              <strong>{formatNumber(currentPoint)}</strong>
-              <span> PT</span>
-            </p>
-            <p className="target-line">/ {formatNumber(targetPoint)} PT</p>
-            <div
-              className="progress-track"
-              role="progressbar"
-              aria-label="目標達成率"
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-valuenow={Number(achievementRate.toFixed(2))}
-            >
-              <span style={{ width: `${achievementRate}%` }} />
-            </div>
-            <p className="remaining">
-              あと <strong>{formatNumber(remainingPoint)}</strong> PT
-            </p>
+      <section className="hero-dashboard" aria-label="現在の獲得ポイント">
+        <div className="score-column">
+          <p className="score-label">現在の達成率</p>
+          <p className="rate">{achievementRate.toFixed(2)}<span>%</span></p>
+          <p className="point-total">
+            <strong>{formatNumber(currentPoint)}</strong> PT
+            <i>/</i>
+            <b>{formatNumber(targetPoint)} PT</b>
+          </p>
+          <div
+            className="progress-track"
+            role="progressbar"
+            aria-label="目標達成率"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Number(achievementRate.toFixed(2))}
+          >
+            <span style={{ width: `${achievementRate}%` }} />
           </div>
-
-          <div className="character-stage" style={progressStyle}>
-            <div className="character-image-wrap">
-              <Image
-                className="character-base"
-                src="/glucoseman.png"
-                alt="グルコースマン"
-                width={1024}
-                height={1536}
-                priority
-                unoptimized
-              />
-              <div className="character-fill" aria-hidden="true">
-                <Image
-                  src="/glucoseman.png"
-                  alt=""
-                  width={1024}
-                  height={1536}
-                  unoptimized
-                />
-              </div>
-            </div>
-            <p className="summon-label">召喚率 {achievementRate.toFixed(2)}%</p>
-          </div>
+          <p className="remaining">あと <strong>{formatNumber(remainingPoint)}</strong> PT</p>
         </div>
 
-        <div className="stats-grid">
-          <article>
-            <span className="stat-icon" aria-hidden="true">↗</span>
-            <div>
-              <p>前回更新比</p>
-              <strong>{increase >= 0 ? "+" : ""}{formatNumber(increase)}<small> PT</small></strong>
+        <div className="character-stage" style={progressStyle}>
+          <div className="character-image-wrap">
+            <Image
+              className="character-base"
+              src="/glucoseman.png"
+              alt="グルコースマン"
+              width={1023}
+              height={1537}
+              priority
+              unoptimized
+            />
+            <div className="character-fill" aria-hidden="true">
+              <Image src="/glucoseman.png" alt="" width={1023} height={1537} unoptimized />
             </div>
-          </article>
-          <article>
-            <span className="stat-icon" aria-hidden="true">♛</span>
-            <div>
-              <p>現在の順位</p>
-              <strong>{rank}<small> 位</small></strong>
-            </div>
-          </article>
+          </div>
         </div>
-
-        <section className="goal-card" aria-label="目標ポイント">
-          <div className="goal-heading">
-            <p>GOAL</p>
-            <strong>{formatNumber(targetPoint)} PT</strong>
-          </div>
-          <div className="goal-scale" aria-hidden="true">
-            <span>0</span><span>30,000</span><span>60,000</span><span>90,000</span><span>120,000</span>
-          </div>
-          <div className="goal-line"><i style={{ width: `${achievementRate}%` }} /></div>
-          <p className="updated">最終更新 {updatedAt}</p>
-        </section>
       </section>
 
-      <div className="content-area">
-        <a className="vote-cta vote-cta-primary" href={VOTE_URL}>
-          <span aria-hidden="true">🔥</span>
-          <span><small>グルコースマンを優勝へ</small>今日の1票を投じる！</span>
+      <section className="stat-card" aria-label="更新情報">
+        <article>
+          <span className="stat-icon" aria-hidden="true">↗</span>
+          <div>
+            <p>前回更新比</p>
+            <strong>↑ {increase >= 0 ? "+" : ""}{formatNumber(increase)}<small> PT</small></strong>
+            <em>（前回更新時点比）</em>
+          </div>
+        </article>
+        <article>
+          <span className="stat-icon" aria-hidden="true">♛</span>
+          <div>
+            <p>現在の順位</p>
+            <strong>{rank}<small> 位</small></strong>
+          </div>
+        </article>
+      </section>
+
+      <section className="goal-card" id="goal" aria-label="目標120,000ポイント">
+        <div className="goal-heading">
+          <h2>目標：{formatNumber(targetPoint)} <small>PT</small></h2>
+          <a href="#goal-note">目標について <span>›</span></a>
+        </div>
+        <div className="milestone-values" aria-hidden="true">
+          <span>0</span><span>30,000</span><span>60,000</span><span>90,000</span><span>120,000</span>
+        </div>
+        <div className="milestone-line" aria-hidden="true">
+          <i style={{ width: `${achievementRate}%` }} />
+          <b /><b /><b /><b /><b />
+        </div>
+        <div className="milestone-rates" aria-hidden="true">
+          <span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span>
+        </div>
+      </section>
+
+      <section className="vote-block">
+        <a className="vote-cta" href={VOTE_URL}>
+          <span className="fire" aria-hidden="true">🔥</span>
+          <strong>今日の1票を投じる！</strong>
           <b aria-hidden="true">›</b>
         </a>
-        <p className="cta-note">あなたの1票で、召喚は完成に近づきます。</p>
+        <p>あなたの1票で、グルコースマンの姿が変わります。</p>
+        <small>投票には「ゆるナビ」への無料登録が必要です。</small>
+      </section>
 
-        <section className="guide-section" id="guide">
-          <p className="section-number">01 / VOTE GUIDE</p>
-          <h2>はじめての方へ</h2>
-          <p className="section-lead">投票には「ゆるナビ」への無料登録が必要です。</p>
-          <ol className="steps">
-            <li><span>1</span><div><strong>無料登録</strong><p>公式ページから「ゆるナビ」に登録</p></div></li>
-            <li><span>2</span><div><strong>ログイン</strong><p>登録したアカウントでログイン</p></div></li>
-            <li><span>3</span><div><strong>キャラを選択</strong><p>グルコースマンのページを開く</p></div></li>
-            <li><span>4</span><div><strong>投票！</strong><p>画面の案内に沿って1票を投じる</p></div></li>
-          </ol>
-          <a className="text-link" href={VOTE_URL}>公式ページで詳しく見る <span>↗</span></a>
-        </section>
-
-        <section className="action-section">
-          <p className="section-number">02 / EVERYDAY</p>
-          <h2>毎日、すぐに会いにいこう。</h2>
-          <p className="section-lead">ホーム画面に追加すると、投票ページへ迷わず戻れます。</p>
-          <div className="device-cards">
-            <article>
-              <span className="device-label">iPhone</span>
-              <h3>Safariで追加</h3>
-              <p><b>共有</b> をタップ<br />→「ホーム画面に追加」</p>
-            </article>
-            <article>
-              <span className="device-label">Android</span>
-              <h3>Chromeで追加</h3>
-              <p><b>メニュー</b> をタップ<br />→「ホーム画面に追加」</p>
-            </article>
-          </div>
-        </section>
-
-        <section className="share-section">
-          <div>
-            <p className="section-number">03 / SHARE</p>
-            <h2>仲間を、召喚。</h2>
-            <p>応援の輪を広げて、120,000PTへ。</p>
-          </div>
-          <ShareButton />
-        </section>
-
-        <section className="final-call">
-          <p>ONE DAY, ONE VOTE.</p>
-          <h2>その1票が、<br />グルコースマンを変える。</h2>
-          <a className="vote-cta" href={VOTE_URL}>
-            <span aria-hidden="true">🔥</span>
-            <span>今日の1票を投じる！</span>
+      <section className="support-grid" id="support" aria-label="投票を応援するメニュー">
+        <details className="support-card">
+          <summary>
+            <span className="support-icon beginner" aria-hidden="true">🔰</span>
+            <span><strong>はじめての方へ</strong><small>登録方法と<br />投票の流れ</small></span>
             <b aria-hidden="true">›</b>
-          </a>
-        </section>
+          </summary>
+          <div className="support-detail">
+            <ol>
+              <li>「ゆるナビ」に無料登録</li>
+              <li>登録アカウントでログイン</li>
+              <li>グルコースマンを選択</li>
+              <li>画面の案内に沿って投票</li>
+            </ol>
+          </div>
+        </details>
 
-        <footer>
-          <p>グルコースマン召喚計画。</p>
-          <a href="https://yurugp.jp/vote/2026">ゆるキャラグランプリ2026 ランキング ↗</a>
-        </footer>
-      </div>
+        <details className="support-card">
+          <summary>
+            <span className="support-icon phone" aria-hidden="true">＋</span>
+            <span><strong>ホーム画面に追加</strong><small>毎日1票で<br />グルコースマンを<br />召喚しよう！</small></span>
+            <b aria-hidden="true">›</b>
+          </summary>
+          <div className="support-detail">
+            <p><b>iPhone：</b>Safariの共有 →「ホーム画面に追加」</p>
+            <p><b>Android：</b>Chromeのメニュー →「ホーム画面に追加」</p>
+          </div>
+        </details>
+
+        <ShareButton />
+      </section>
+
+      <section className="goal-note" id="goal-note">
+        <h2>120,000PTで、完全召喚。</h2>
+        <p>獲得PTが増えるほど、グルコースマンが足元から紫に染まります。毎日の1票で100%を目指そう。</p>
+        <a className="vote-cta vote-cta-secondary" href={VOTE_URL}>
+          <span className="fire" aria-hidden="true">🔥</span>
+          <strong>今日の1票を投じる！</strong>
+          <b aria-hidden="true">›</b>
+        </a>
+      </section>
+
+      <footer>
+        <a href={RANKING_URL}>◉ ゆるキャラグランプリ2026 グルコースマン投票ページへ ↗</a>
+      </footer>
     </main>
   );
 }

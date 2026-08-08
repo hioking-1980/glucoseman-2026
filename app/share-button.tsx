@@ -2,22 +2,18 @@
 
 import { useState } from "react";
 
-const SHARE_TEXT =
-  "グルコースマンをゆるキャラグランプリ優勝へ。目標120,000PT！今日も1票お願いします。";
+const SHARE_TEXT = "グルコースマンをゆるキャラグランプリ優勝へ。目標120,000PT！今日も1票お願いします。";
 
 export function ShareButton() {
-  const [label, setLabel] = useState("シェアして応援");
+  const [copied, setCopied] = useState(false);
 
   const share = async () => {
-    const shareData = { title: "グルコースマン召喚計画", text: SHARE_TEXT, url: window.location.href };
+    const data = { title: "グルコースマン召喚計画", text: SHARE_TEXT, url: window.location.href };
     try {
-      if (navigator.share) {
-        await navigator.share(shareData);
-        return;
-      }
+      if (navigator.share) return await navigator.share(data);
       await navigator.clipboard.writeText(`${SHARE_TEXT}\n${window.location.href}`);
-      setLabel("URLをコピーしました");
-      window.setTimeout(() => setLabel("シェアして応援"), 2400);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2400);
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return;
       const xUrl = new URL("https://twitter.com/intent/tweet");
@@ -28,9 +24,10 @@ export function ShareButton() {
   };
 
   return (
-    <button className="share-button" type="button" onClick={share} aria-label="このサイトをシェアして応援する">
-      <span aria-hidden="true">●—●</span>
-      {label}
+    <button className="support-card share-card" type="button" onClick={share}>
+      <span className="support-icon share-icon" aria-hidden="true">●</span>
+      <span><strong>{copied ? "コピーしました" : "シェアして応援"}</strong><small>グルコースマンを<br />みんなに広めよう！</small></span>
+      <b aria-hidden="true">›</b>
     </button>
   );
 }

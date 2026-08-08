@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
-import { CAMPAIGN_DATA } from "./campaign-data";
+import { getCampaignData } from "./campaign-data";
 import { ShareButton } from "./share-button";
 
 const VOTE_URL = "https://yurugp.jp/characters/4524";
@@ -8,8 +8,8 @@ const RANKING_URL = "https://yurugp.jp/vote/2026";
 const ASSET_PREFIX = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const formatNumber = (value: number) => new Intl.NumberFormat("ja-JP").format(value);
 
-export default function Home() {
-  const { currentPoint, targetPoint, previousPoint, rank } = CAMPAIGN_DATA;
+export default async function Home() {
+  const { currentPoint, targetPoint, previousPoint, rank } = await getCampaignData();
   const achievementRate = Math.min((currentPoint / targetPoint) * 100, 100);
   const achievementDisplay = achievementRate.toFixed(1);
   const remainingPoint = Math.max(targetPoint - currentPoint, 0);

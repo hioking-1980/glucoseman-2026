@@ -26,7 +26,7 @@ export function ShareButton() {
   return (
     <button className="support-card share-card" type="button" onClick={share}>
       <span className="support-icon share-icon" aria-hidden="true">●</span>
-      <span><strong>{copied ? "コピーしました" : "シェアして応援"}</strong><small>グルコースマンを<br />みんなに広めよう！</small></span>
+      <span><strong>{copied ? "コピーしました" : <>シェアして<wbr />応援</>}</strong><small>グルコースマンを<br />みんなに広めよう！</small></span>
       <b aria-hidden="true">›</b>
     </button>
   );

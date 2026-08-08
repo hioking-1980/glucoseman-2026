@@ -111,6 +111,16 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .menu-link i { display: grid; gap: 6px; width: 30px; }
 .menu-link i span { height: 3px; border-radius: 4px; background: white; }
 .menu-link b { font-family: "Yu Gothic", sans-serif; font-size: 10px; font-weight: 700; }
+.summon-banner {
+  position: absolute;
+  z-index: 3;
+  bottom: -88px;
+  left: -18px;
+  width: min(58%, 270px);
+  height: auto;
+  transform: rotate(-.25deg);
+  box-shadow: 0 3px 0 rgba(97,62,0,.2);
+}
 
 .hero-dashboard {
   display: grid;
@@ -279,11 +289,11 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .support-card summary,
 .share-card {
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr) 10px;
+  grid-template-columns: 32px minmax(0, 1fr) 8px;
   align-items: center;
   width: 100%;
   min-height: 130px;
-  padding: 12px 8px;
+  padding: 12px 6px;
   list-style: none;
   cursor: pointer;
   text-align: left;
@@ -296,7 +306,14 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .share-icon::after { content: "●"; position: absolute; color: white; }
 .share-icon::before { top: -12px; right: 2px; }
 .share-icon::after { right: 2px; bottom: -12px; }
-.support-card strong { display: block; color: var(--yellow); font-size: 10px; line-height: 1.35; white-space: nowrap; }
+.support-card strong {
+  display: block;
+  max-width: 100%;
+  color: var(--yellow);
+  font-size: 9px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
 .support-card small { display: block; margin-top: 10px; font-family: "Yu Gothic", sans-serif; font-size: 9px; line-height: 1.6; }
 .support-card summary > b,
 .share-card > b { color: var(--yellow); font: 400 26px/1 Arial, sans-serif; }
@@ -364,6 +381,7 @@ footer a { font-family: "Yu Gothic", sans-serif; font-size: 9px; text-underline-
   .campaign-title h1 { font-size: 55px; }
   .campaign-title h2 { font-size: 46px; }
   .hero-dashboard { grid-template-columns: minmax(0, 1.08fr) minmax(112px, .92fr); min-height: 382px; margin-top: -118px; }
+  .summon-banner { bottom: -78px; left: -15px; width: 60%; }
   .character-image-wrap { height: 385px; }
   .character-stage { margin-right: -24px; margin-left: -34px; }
   .rate { font-size: 68px; }

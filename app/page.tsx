@@ -38,6 +38,15 @@ export default function Home() {
           <i aria-hidden="true"><span /><span /><span /></i>
           <b>メニュー</b>
         </a>
+        <Image
+          className="summon-banner"
+          src={`${ASSET_PREFIX}/aim-12000-banner.png`}
+          alt="目指せ！12,000PT"
+          width={2172}
+          height={724}
+          priority
+          unoptimized
+        />
       </header>
 
       <section className="hero-dashboard" aria-label="現在の獲得ポイント">
@@ -129,7 +138,7 @@ export default function Home() {
         <details className="support-card">
           <summary>
             <span className="support-icon beginner" aria-hidden="true">🔰</span>
-            <span><strong>はじめての方へ</strong><small>登録方法と<br />投票の流れ</small></span>
+            <span><strong>はじめての<wbr />方へ</strong><small>登録方法と<br />投票の流れ</small></span>
             <b aria-hidden="true">›</b>
           </summary>
           <div className="support-detail">
@@ -145,7 +154,7 @@ export default function Home() {
         <details className="support-card">
           <summary>
             <span className="support-icon phone" aria-hidden="true">＋</span>
-            <span><strong>ホーム画面に追加</strong><small>毎日1票で<br />グルコースマンを<br />召喚しよう！</small></span>
+            <span><strong>ホーム画面に<wbr />追加</strong><small>毎日1票で<br />グルコースマンを<br />召喚しよう！</small></span>
             <b aria-hidden="true">›</b>
           </summary>
           <div className="support-detail">

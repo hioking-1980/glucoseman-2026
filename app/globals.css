@@ -117,7 +117,7 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
   grid-template-columns: minmax(0, 1.02fr) minmax(138px, .98fr);
   align-items: end;
   min-height: 430px;
-  margin-top: -10px;
+  margin-top: -132px;
 }
 .score-column { position: relative; z-index: 2; padding-bottom: 25px; }
 .score-label { margin: 0 0 14px; font-size: 17px; letter-spacing: .02em; }
@@ -363,7 +363,7 @@ footer a { font-family: "Yu Gothic", sans-serif; font-size: 9px; text-underline-
   .campaign-header { min-height: 205px; }
   .campaign-title h1 { font-size: 55px; }
   .campaign-title h2 { font-size: 46px; }
-  .hero-dashboard { grid-template-columns: minmax(0, 1.08fr) minmax(112px, .92fr); min-height: 382px; }
+  .hero-dashboard { grid-template-columns: minmax(0, 1.08fr) minmax(112px, .92fr); min-height: 382px; margin-top: -118px; }
   .character-image-wrap { height: 385px; }
   .character-stage { margin-right: -24px; margin-left: -34px; }
   .rate { font-size: 68px; }

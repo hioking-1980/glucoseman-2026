@@ -1,0 +1,12 @@
+{
+  "name": "グルコースマン召喚計画",
+  "short_name": "グルコースマン",
+  "description": "グルコースマンをゆるキャラグランプリ優勝へ。今日も1票を。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#19064a",
+  "theme_color": "#19064a",
+  "icons": [
+    { "src": "/glucoseman.png", "sizes": "1024x1536", "type": "image/png", "purpose": "any" }
+  ]
+}

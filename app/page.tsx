@@ -11,6 +11,7 @@ const formatNumber = (value: number) => new Intl.NumberFormat("ja-JP").format(va
 export default function Home() {
   const { currentPoint, targetPoint, previousPoint, rank } = CAMPAIGN_DATA;
   const achievementRate = Math.min((currentPoint / targetPoint) * 100, 100);
+  const achievementDisplay = achievementRate.toFixed(1);
   const remainingPoint = Math.max(targetPoint - currentPoint, 0);
   const increase = currentPoint - previousPoint;
   // Map progress to the mascot's visible alpha bounds so even a fraction of 1%
@@ -52,7 +53,7 @@ export default function Home() {
       <section className="hero-dashboard" aria-label="現在の獲得ポイント">
         <div className="score-column">
           <p className="score-label">現在の達成率</p>
-          <p className="rate">{achievementRate.toFixed(2)}<span>%</span></p>
+          <p className="rate">{achievementDisplay}<span>%</span></p>
           <p className="point-total">
             <strong>{formatNumber(currentPoint)}</strong> PT
             <i>/</i>
@@ -64,7 +65,7 @@ export default function Home() {
             aria-label="目標達成率"
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-valuenow={Number(achievementRate.toFixed(2))}
+            aria-valuenow={Number(achievementDisplay)}
           >
             <span style={{ width: `${achievementRate}%` }} />
           </div>

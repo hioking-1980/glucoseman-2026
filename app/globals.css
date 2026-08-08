@@ -114,7 +114,7 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 .summon-banner {
   position: absolute;
   z-index: 3;
-  bottom: -88px;
+  bottom: 32px;
   left: -18px;
   width: min(58%, 270px);
   height: auto;
@@ -381,7 +381,7 @@ footer a { font-family: "Yu Gothic", sans-serif; font-size: 9px; text-underline-
   .campaign-title h1 { font-size: 55px; }
   .campaign-title h2 { font-size: 46px; }
   .hero-dashboard { grid-template-columns: minmax(0, 1.08fr) minmax(112px, .92fr); min-height: 382px; margin-top: -118px; }
-  .summon-banner { bottom: -78px; left: -15px; width: 60%; }
+  .summon-banner { bottom: 24px; left: -15px; width: 60%; }
   .character-image-wrap { height: 385px; }
   .character-stage { margin-right: -24px; margin-left: -34px; }
   .rate { font-size: 68px; }

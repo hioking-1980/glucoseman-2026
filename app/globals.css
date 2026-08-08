@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 :root {
+  --browser-chrome: #250760;
   --ink: #170444;
   --purple: #260867;
   --purple-line: #6f32b0;
@@ -10,11 +11,16 @@
 }
 
 * { box-sizing: border-box; }
-html { background: #08021f; scroll-behavior: smooth; }
+html {
+  min-height: 100%;
+  background: var(--browser-chrome);
+  scroll-behavior: smooth;
+}
 body {
+  min-height: 100%;
   margin: 0;
   overflow-x: hidden;
-  background: #08021f;
+  background: var(--browser-chrome);
   color: var(--white);
   font-family: "Arial Black", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
 }

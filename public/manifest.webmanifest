@@ -4,8 +4,8 @@
   "description": "グルコースマンをゆるキャラグランプリ優勝へ。今日も1票を。",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#19064a",
-  "theme_color": "#19064a",
+  "background_color": "#250760",
+  "theme_color": "#250760",
   "icons": [
     { "src": "/glucoseman.png", "sizes": "1024x1536", "type": "image/png", "purpose": "any" }
   ]

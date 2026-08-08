@@ -35,10 +35,6 @@ export default async function Home() {
           <h1>ゆるキャラ<br className="narrow-break" />グランプリ。</h1>
           <h2>優勝。</h2>
         </div>
-        <a className="menu-link" href="#support" aria-label="応援メニューへ移動">
-          <i aria-hidden="true"><span /><span /><span /></i>
-          <b>メニュー</b>
-        </a>
       </header>
 
       <Image

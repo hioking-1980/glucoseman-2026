@@ -55,7 +55,7 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 }
 
 .campaign-header { position: relative; min-height: 218px; }
-.campaign-title { width: calc(100% - 40px); transform: rotate(-1deg); }
+.campaign-title { width: 100%; transform: rotate(-1deg); }
 .campaign-title p {
   margin: 0 0 7px;
   font-size: clamp(20px, 6vw, 31px);
@@ -104,19 +104,6 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
   box-shadow: 1px 0 0 rgba(255,255,255,.25);
 }
 .narrow-break { display: none; }
-.menu-link {
-  position: absolute;
-  top: 1px;
-  right: 0;
-  display: grid;
-  justify-items: center;
-  gap: 5px;
-  color: white;
-  text-decoration: none;
-}
-.menu-link i { display: grid; gap: 6px; width: 30px; }
-.menu-link i span { height: 3px; border-radius: 4px; background: white; }
-.menu-link b { font-family: "Yu Gothic", sans-serif; font-size: 10px; font-weight: 700; }
 .summon-banner {
   position: relative;
   z-index: 3;
@@ -376,7 +363,6 @@ button, summary, a { -webkit-tap-highlight-color: transparent; }
 footer { padding: 24px 0 0; text-align: center; }
 footer a { font-family: "Yu Gothic", sans-serif; font-size: 9px; text-underline-offset: 4px; }
 
-.menu-link:focus-visible,
 .vote-cta:focus-visible,
 .support-card:focus-visible,
 .support-card summary:focus-visible,

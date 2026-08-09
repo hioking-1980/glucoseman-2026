@@ -46,7 +46,10 @@ Glucoseman in Yuru-Chara Grand Prix 2026. Read this file before changing code.
 
 ## Official data synchronization
 
-- GitHub Actions runs at 03:00 UTC / 12:00 JST every day.
+- GitHub Actions runs at 03:30 UTC / 12:30 JST on weekdays. This delay allows
+  the official site's approximately-noon update to finish before collection.
+- No scheduled sync runs on weekends; the latest verified Friday snapshot is
+  retained. Manual `workflow_dispatch` remains available for exceptional checks.
 - The scraper must verify all four identity markers before accepting data:
   `兵庫県`, `姫路の種`, `グルコースマン`, and `エントリーNo.111`.
 - It extracts rank and PT only after the identity check. On parse/fetch failure,
@@ -95,4 +98,3 @@ Review its diff before committing.
 - Keep external links accessible and preserve meaningful alt text and progressbar
   attributes.
 - Avoid redesigning unrelated sections while making a targeted change.
-

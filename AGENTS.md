@@ -46,8 +46,9 @@ Glucoseman in Yuru-Chara Grand Prix 2026. Read this file before changing code.
 
 ## Official data synchronization
 
-- GitHub Actions runs at 03:30 UTC / 12:30 JST on weekdays. This delay allows
-  the official site's approximately-noon update to finish before collection.
+- GitHub Actions checks at 03:30, 04:00, and 04:30 UTC / 12:30, 13:00, and
+  13:30 JST on weekdays. Multiple checks absorb both the official site's
+  approximately-noon timing variance and GitHub schedule delays.
 - No scheduled sync runs on weekends; the latest verified Friday snapshot is
   retained. Manual `workflow_dispatch` remains available for exceptional checks.
 - The scraper must verify all four identity markers before accepting data:
@@ -56,6 +57,7 @@ Glucoseman in Yuru-Chara Grand Prix 2026. Read this file before changing code.
   fail the workflow and keep the last valid snapshot; never write guessed values.
 - When points change, the old `currentPoint` becomes `previousPoint`, which drives
   the `前回更新比` display. If points do not change, preserve `previousPoint`.
+- If both points and rank are unchanged, do not rewrite the snapshot or redeploy.
 - Sites fetches the latest GitHub snapshot with `cache: "no-store"` and falls back
   to the bundled JSON if GitHub is unavailable.
 - A changed snapshot explicitly dispatches the Pages deployment workflow because

@@ -39,6 +39,12 @@ if (!Number.isInteger(rank) || rank < 1 || !Number.isInteger(currentPoint) || cu
 }
 
 const previous = JSON.parse(await readFile(dataPath, "utf8"));
+
+if (currentPoint === previous.currentPoint && rank === previous.rank) {
+  console.log(`Official ranking is unchanged: ${rank}位 / ${currentPoint.toLocaleString("ja-JP")} PT`);
+  process.exit(0);
+}
+
 const checkedAt = new Intl.DateTimeFormat("ja-JP", {
   timeZone: "Asia/Tokyo",
   year: "numeric",

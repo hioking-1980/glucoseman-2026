@@ -46,9 +46,13 @@ Glucoseman in Yuru-Chara Grand Prix 2026. Read this file before changing code.
 
 ## Official data synchronization
 
-- GitHub Actions checks at 03:30, 04:00, and 04:30 UTC / 12:30, 13:00, and
-  13:30 JST on weekdays. Multiple checks absorb both the official site's
-  approximately-noon timing variance and GitHub schedule delays.
+- The primary Sites deployment reads and validates the official ranking at
+  request time with `cache: "no-store"`. It must not depend solely on GitHub's
+  scheduler, because GitHub documents that scheduled events may be delayed or
+  dropped under load.
+- GitHub Actions checks at 03:17, 03:37, 03:57, 04:17, 04:37, and 04:57 UTC /
+  12:17, 12:37, 12:57, 13:17, 13:37, and 13:57 JST on weekdays. The off-minute
+  schedule avoids the documented high-load period near the start of each hour.
 - No scheduled sync runs on weekends; the latest verified Friday snapshot is
   retained. Manual `workflow_dispatch` remains available for exceptional checks.
 - The scraper must verify all four identity markers before accepting data:
@@ -58,8 +62,10 @@ Glucoseman in Yuru-Chara Grand Prix 2026. Read this file before changing code.
 - When points change, the old `currentPoint` becomes `previousPoint`, which drives
   the `前回更新比` display. If points do not change, preserve `previousPoint`.
 - If both points and rank are unchanged, do not rewrite the snapshot or redeploy.
-- Sites fetches the latest GitHub snapshot with `cache: "no-store"` and falls back
-  to the bundled JSON if GitHub is unavailable.
+- Sites first reads the latest GitHub snapshot, then reads the official page
+  directly. It verifies all identity markers before overriding points and rank.
+  If the official request or validation fails, it falls back to the latest
+  GitHub snapshot, then to the bundled JSON.
 - A changed snapshot explicitly dispatches the Pages deployment workflow because
   commits made by `GITHUB_TOKEN` do not trigger a normal push workflow.
 - Do not manually edit official rank or points except as an emergency, verified

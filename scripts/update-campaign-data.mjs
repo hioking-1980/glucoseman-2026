@@ -1,16 +1,10 @@
 import { readFile, writeFile } from "node:fs/promises";
 
 const rankingUrl = "https://yurugp.jp/vote/2026";
+const rankRanges = ["1-50", "51-100", "101-150", "151-200", "201-250", "251-300", "301-"];
 const dataPath = new URL("../app/campaign-data.json", import.meta.url);
 
-const response = await fetch(rankingUrl, {
-  headers: { "user-agent": "GlucosemanSupportSite/1.0 (+https://hioking-1980.github.io/glucoseman-2026/)" },
-});
-
-if (!response.ok) throw new Error(`Official ranking request failed: ${response.status}`);
-
-const html = await response.text();
-const text = html
+const toText = (html) => html
   .replace(/<script[\s\S]*?<\/script>/gi, " ")
   .replace(/<style[\s\S]*?<\/style>/gi, " ")
   .replace(/<[^>]*>/g, " ")
@@ -19,24 +13,46 @@ const text = html
   .replace(/\s+/g, " ")
   .trim();
 
-const entryMarker = "エントリーNo.111";
-const entryIndex = text.indexOf(entryMarker);
-if (entryIndex < 0) throw new Error("Glucoseman entry No.111 was not found on the official ranking page");
+const getEntryFromRange = async (rankRange) => {
+  const url = `${rankingUrl}?rank_range=${rankRange}`;
+  const response = await fetch(url, {
+    headers: { "user-agent": "GlucosemanSupportSite/1.0 (+https://hioking-1980.github.io/glucoseman-2026/)" },
+  });
 
-const beforeEntry = text.slice(Math.max(0, entryIndex - 1800), entryIndex);
-if (!beforeEntry.includes("兵庫県") || !beforeEntry.includes("姫路の種") || !beforeEntry.includes("グルコースマン")) {
-  throw new Error("The official entry identity did not match Glucoseman / Himeji no Tane");
+  if (!response.ok) throw new Error(`Official ranking request failed: ${response.status}`);
+
+  const text = toText(await response.text());
+  const entryMarker = "エントリーNo.111";
+  const entryIndex = text.indexOf(entryMarker);
+  if (entryIndex < 0) return null;
+
+  const beforeEntry = text.slice(Math.max(0, entryIndex - 1800), entryIndex);
+  if (!beforeEntry.includes("兵庫県") || !beforeEntry.includes("姫路の種") || !beforeEntry.includes("グルコースマン")) {
+    throw new Error("The official entry identity did not match Glucoseman / Himeji no Tane");
+  }
+
+  const rankMatches = [...beforeEntry.matchAll(/(\d+)位/g)];
+  const rank = Number(rankMatches.at(-1)?.[1]);
+  const afterEntry = text.slice(entryIndex, entryIndex + 500);
+  const pointMatch = afterEntry.match(/([\d,]+)\s*PT/);
+  const currentPoint = Number(pointMatch?.[1]?.replaceAll(",", ""));
+
+  if (!Number.isInteger(rank) || rank < 1 || !Number.isInteger(currentPoint) || currentPoint < 0) {
+    throw new Error("The official rank or point value could not be parsed safely");
+  }
+
+  return { currentPoint, rank };
+};
+
+let official = null;
+for (const rankRange of rankRanges) {
+  official = await getEntryFromRange(rankRange);
+  if (official) break;
 }
 
-const rankMatches = [...beforeEntry.matchAll(/(\d+)位/g)];
-const rank = Number(rankMatches.at(-1)?.[1]);
-const afterEntry = text.slice(entryIndex, entryIndex + 500);
-const pointMatch = afterEntry.match(/([\d,]+)\s*PT/);
-const currentPoint = Number(pointMatch?.[1]?.replaceAll(",", ""));
+if (!official) throw new Error("Glucoseman entry No.111 was not found in any official ranking range");
 
-if (!Number.isInteger(rank) || rank < 1 || !Number.isInteger(currentPoint) || currentPoint < 0) {
-  throw new Error("The official rank or point value could not be parsed safely");
-}
+const { rank, currentPoint } = official;
 
 const previous = JSON.parse(await readFile(dataPath, "utf8"));
 

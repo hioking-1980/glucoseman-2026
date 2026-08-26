@@ -11,6 +11,7 @@ export type CampaignData = {
 const LATEST_DATA_URL =
   "https://raw.githubusercontent.com/hioking-1980/glucoseman-2026/main/app/campaign-data.json";
 const OFFICIAL_RANKING_URL = "https://yurugp.jp/vote/2026";
+const OFFICIAL_RANK_RANGES = ["1-50", "51-100", "101-150", "151-200", "201-250", "251-300", "301-"];
 
 const isCampaignData = (value: unknown): value is CampaignData => {
   if (!value || typeof value !== "object") return false;
@@ -53,6 +54,23 @@ const parseOfficialRanking = (html: string) => {
   return { currentPoint, rank };
 };
 
+const fetchOfficialRanking = async () => {
+  for (const rankRange of OFFICIAL_RANK_RANGES) {
+    const response = await fetch(`${OFFICIAL_RANKING_URL}?rank_range=${rankRange}`, {
+      cache: "no-store",
+      headers: {
+        "user-agent": "GlucosemanSupportSite/1.0 (+https://glucoseman-2026.y-hioki207703.chatgpt.site/)",
+      },
+    });
+    if (!response.ok) throw new Error(`Official ranking request failed: ${response.status}`);
+
+    const official = parseOfficialRanking(await response.text());
+    if (official) return official;
+  }
+
+  throw new Error("Official Glucoseman ranking could not be verified");
+};
+
 const readLatestSnapshot = async (): Promise<CampaignData> => {
   try {
     const response = await fetch(LATEST_DATA_URL, { cache: "no-store" });
@@ -74,16 +92,7 @@ export async function getCampaignData(): Promise<CampaignData> {
   // time. It therefore stays current even if a GitHub scheduled event is
   // delayed or dropped. Strict identity checks prevent accepting another entry.
   try {
-    const response = await fetch(OFFICIAL_RANKING_URL, {
-      cache: "no-store",
-      headers: {
-        "user-agent": "GlucosemanSupportSite/1.0 (+https://glucoseman-2026.y-hioki207703.chatgpt.site/)",
-      },
-    });
-    if (!response.ok) throw new Error(`Official ranking request failed: ${response.status}`);
-
-    const official = parseOfficialRanking(await response.text());
-    if (!official) throw new Error("Official Glucoseman ranking could not be verified");
+    const official = await fetchOfficialRanking();
 
     return {
       ...latestSnapshot,

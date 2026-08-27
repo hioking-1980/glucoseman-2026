@@ -50,8 +50,8 @@ Glucoseman in Yuru-Chara Grand Prix 2026. Read this file before changing code.
   request time with `cache: "no-store"`. It must not depend solely on GitHub's
   scheduler, because GitHub documents that scheduled events may be delayed or
   dropped under load.
-- GitHub Actions checks at 03:17, 03:37, 03:57, 04:17, 04:37, and 04:57 UTC /
-  12:17, 12:37, 12:57, 13:17, 13:37, and 13:57 JST on weekdays. The off-minute
+- GitHub Actions checks every five minutes from 03:02 through 05:57 UTC /
+  12:02 through 14:57 JST on weekdays. The off-minute
   schedule avoids the documented high-load period near the start of each hour.
 - No scheduled sync runs on weekends; the latest verified Friday snapshot is
   retained. Manual `workflow_dispatch` remains available for exceptional checks.
@@ -59,6 +59,8 @@ Glucoseman in Yuru-Chara Grand Prix 2026. Read this file before changing code.
   `兵庫県`, `姫路の種`, `グルコースマン`, and `エントリーNo.111`.
 - It extracts rank and PT only after the identity check. On parse/fetch failure,
   fail the workflow and keep the last valid snapshot; never write guessed values.
+- Search every official rank range (1-50 through 301-) before declaring the
+  entry missing: a rank change must never make the snapshot sync fail.
 - When points change, the old `currentPoint` becomes `previousPoint`, which drives
   the `前回更新比` display. If points do not change, preserve `previousPoint`.
 - If both points and rank are unchanged, do not rewrite the snapshot or redeploy.
